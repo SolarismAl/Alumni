@@ -9,8 +9,8 @@
         "prod": "npm run production",
         "start": "node server.js",
         "build": "yarn install && yarn migrate",
-        "migrate": "node database-migration-script.js",
-        "run-migrations": "php artisan migrate --seed",
+        "migrate": "php artisan migrate",
+        "run-migrations": "php artisan migrate:seeders",
         "production": "mix --production"
     },
     "devDependencies": {
