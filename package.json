@@ -8,8 +8,9 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "start": "node server.js",
-        "build": "yarn install && yarn run-migrations",
+        "build": "yarn install && yarn migrate",
         "migrate": "node database-migration-script.js",
+        "run-migrations": "php artisan migrate --seed",
         "production": "mix --production"
     },
     "devDependencies": {
