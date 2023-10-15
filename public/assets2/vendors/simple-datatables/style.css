@@ -1,0 +1,13 @@
+.dataTable-dropdown, .dataTable-search {
+    display: inline-flex;
+    align-items: center;
+}
+
+.dataTable-dropdown label {
+    white-space: nowrap;
+    margin-left: 15px;
+}
+
+.dataTable-search input {
+    margin-left: 15px; /* Add spacing between dropdown and search input */
+}
