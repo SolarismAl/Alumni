@@ -15,8 +15,9 @@
     },
 
     "config": {
-        "php": "C:/php/php.exe"
+        "php": "C:/wamp64/bin/php/php7.4.33/php.exe"
     },
+    
     
 
     "devDependencies": {
