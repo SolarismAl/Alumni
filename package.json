@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "start": "node server.js",
         "build": "yarn install && yarn migrate",
-        "migrate": "php artisan migrate",
+        "migrate": "C:/wamp64/bin/php/php7.4.33/php.exe artisan migrate",
         "run-migrations": "php artisan migrate:seeders",
         "production": "mix --production"
     },
