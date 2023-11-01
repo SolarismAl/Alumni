@@ -6,6 +6,8 @@ WORKDIR /var/www/html
 
 # Update the package list and install libpq-dev
 RUN apt-get update && apt-get install -y libpq-dev zip unzip
+# Use a specific package mirror
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
