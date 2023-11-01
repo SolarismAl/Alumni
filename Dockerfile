@@ -18,9 +18,6 @@ RUN composer self-update
 # Copy the Laravel application files into the container
 COPY . .
 
-# Copy the .env file into the container
-COPY .env .env
-
 # Install application dependencies using Composer
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 
