@@ -15,16 +15,20 @@ services:
       - APP_ENV=local
       - APP_DEBUG=true
       - APP_URL=http://localhost
+      - DB_CONNECTION=pgsql
+      - DATABASE_URL=pgsql://alumni_macl_user:5J4tVgixswjRYgr1BFEiQf2MXnE6xwNP@db/alumni_macl
+      - APP_KEY=base64:OyACJZzMH4g37NRVjeWACaXjOTeXj5VZvPZpTrH5hWs=
       # Add other Laravel-specific environment variables as needed
 
   db:
-    image: mysql:5.7
+    image: postgres:13
     container_name: laravel-db
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
-      - MYSQL_ROOT_PASSWORD=your-root-password
-      - MYSQL_DATABASE=your-database-name
+      - POSTGRES_USER=alumni_macl_user
+      - POSTGRES_PASSWORD=5J4tVgixswjRYgr1BFEiQf2MXnE6xwNP
+      - POSTGRES_DB=alumni_macl
 
 networks:
   laravel-net:
