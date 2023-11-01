@@ -1,41 +1,21 @@
 # Use an official PHP image as the base image
 FROM php:7.4-fpm
 
-# Set the working directory in the container
-WORKDIR /var/www/html
-
-# Install system dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
-    git \
-    zip \
-    unzip \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libmcrypt-dev \
-    libzip-dev
-
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Copy the application code into the container
 COPY . .
 
-# Install application dependencies using Composer
-RUN composer install --no-dev
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Set the correct permissions for Laravel
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Expose the port on which PHP-FPM will listen (default is 9000)
-EXPOSE 9000
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Start PHP-FPM
-CMD ["php-fpm"]
-
-# Optionally, add other setup steps if needed (e.g., setting up NGINX or Apache for web serving).
+CMD ["/start.sh"]
