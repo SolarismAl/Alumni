@@ -51,11 +51,13 @@
                             <td>{{ $event->description }}</td>
                             <td>{{ $event->location }}</td>
                             <td>{{ $event->event_date }}</td>
+                            @hasrole('admin')
                             <td class="text-end"> 
                                 <div class="btn-group" role="group">
                                     <button wire:click="removeEvents({{ $event->id }})" class="btn btn-danger">Remove</button>
                                 </div>
                             </td>
+                            @endrole
                         </tr>
                         @endforeach
                     </tbody>

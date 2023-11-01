@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:7.4-fpm
+    container_name: laravel-app
+    volumes:
+      - ./laravel-app:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - db
+    networks:
+      - laravel-net
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost
+      # Add other Laravel-specific environment variables as needed
+
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=your-root-password
+      - MYSQL_DATABASE=your-database-name
+
+networks:
+  laravel-net:
+    driver: bridge
