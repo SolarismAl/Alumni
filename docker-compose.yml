@@ -18,7 +18,7 @@ services:
       - DB_CONNECTION=pgsql
       - DATABASE_URL=pgsql://alumni_macl_user:5J4tVgixswjRYgr1BFEiQf2MXnE6xwNP@db/alumni_macl
       - APP_KEY=base64:OyACJZzMH4g37NRVjeWACaXjOTeXj5VZvPZpTrH5hWs=
-      # Add other Laravel-specific environment variables as needed
+
 
   db:
     image: postgres:13
