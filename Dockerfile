@@ -5,7 +5,7 @@ FROM php:7.4-fpm
 WORKDIR /var/www/html
 
 # Install PHP extensions required by Laravel
-RUN docker-php-ext-install pdo pdo_pgsql
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
 
 # Allow Composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -19,7 +19,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install application dependencies using Composer
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 
-# Generate the application key
+# Generate the Laravel application key
 RUN php artisan key:generate
 
 # Expose the port the application will run on
