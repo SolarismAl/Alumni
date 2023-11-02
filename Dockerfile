@@ -15,7 +15,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Update Composer to the latest version
 RUN composer self-update
 
+# Copy the Laravel application files into the container
+COPY . .
 
+# Copy the .env file into the container
+COPY .env .env
 
 # Install application dependencies using Composer
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
@@ -23,11 +27,6 @@ RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 # Generate the Laravel application key
 RUN php artisan key:generate
 
-# Copy the Laravel application files into the container
-COPY . .
-
-# Copy the .env file into the container
-COPY .env .env
 # Expose the port the application will run on
 EXPOSE 9000
 
