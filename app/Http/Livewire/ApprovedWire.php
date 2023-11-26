@@ -5,44 +5,47 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Profile;
-use App\Http\Controlllers\Controlllers;
-Use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ApprovedWire extends Component
 {
-    Use LivewireAlert;
-    public $users;
-    public $selectedUser;
+    use LivewireAlert;
 
-    public function render()
-    {
-        $approvedUsers = User::where('approved', true)->where('name', '<>', 'admin')->with('profile')->get();
-        return view('livewire.approved-wire', compact('approvedUsers'));
-    }
-    
+    public $approvedUsers;
+    public $selectedUserProfile;
+    public $profile;
+
 
     public function deleteUser($userId)
     {
-        $users = User::find($userId);
-    
-        if ($users) {
-            $users->delete();
+        $user = User::find($userId);
+
+        if ($user) {
+            $user->delete();
             $this->alert('success', 'Successfully Removed!');
         }
-        $this->render();
     }
 
-    public function viewUser($userId)
+    public function render()
     {
-        $this->selectedUser = User::find($userId);
-    
-        $this->selectedUser->load('profile');
+        $this->approvedUsers = User::where('approved', true)
+            ->where('name', '<>', 'admin')
+            ->with('profile')
+            ->get();
+
+        return view('livewire.approved-wire', ['profile' => $this->profile]);
     }
     
+    public function showUserProfile($userId)
+    {
+        $user = User::find($userId);
+        $this->selectedUserProfile = $user->profile;
+    }
     
-    
+
     public function approvedCount()
     {
         return User::where('approved', true)->where('name', '<>', 'admin')->count();
+
     }
 }

@@ -33,67 +33,54 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th class="text-end">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($approvedUsers as $user)
-                                <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td class="text-end">
-                                    <div class="btn-group" role="group">
-                                        <button wire:click="viewUser({{ $user->id }})" class="btn btn-success float-start" data-bs-toggle="modal" data-bs-target="#viewUser">View Details</button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                             <button wire:click="deleteUser({{ $user->id }})" class="btn btn-danger">Remove</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <button wire:click="showUserProfile({{ $user->id }})" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#userProfileModal">View Profile</button>
+                                            <button wire:click="deleteUser({{ $user->id }})" class="btn btn-danger">Remove</button>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
 
-                        </div>
                     </div>
-
                 </section>
             </div>
-            <div class="modal fade text-left" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="viewUserLabel" aria-hidden="true" wire:ignore>
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="viewUserLabel">User Details</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
+            <div class="modal fade" id="userProfileModal" tabindex="-1" role="dialog" aria-labelledby="userProfileModalLabel" aria-hidden="true" wire:ignore.self>
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userProfileModalLabel">User Profile Information</h5>
+                        </div>
+                        <div class="modal-body">
+                            @if($selectedUserProfile)
+                                <p><strong>First Name:</strong> {{ $selectedUserProfile->first_name ?? '' }}</p>
+                                <p><strong>Middle Name:</strong> {{ $selectedUserProfile->middle_name ?? '' }}</p>
+                                <p><strong>Last Name:</strong> {{ $selectedUserProfile->last_name ?? '' }}</p>
+                                <p><strong>Gender:</strong> {{ $selectedUserProfile->gender ?? '' }}</p>
+                                <p><strong>Graduation Year:</strong> {{ $selectedUserProfile->graduation_year ?? '' }}</p>
+                                <p><strong>Status:</strong> {{ $selectedUserProfile->status ?? '' }}</p>
+                                <p><strong>Location:</strong> {{ $selectedUserProfile->location ?? '' }}</p>
+                                <p><strong>Work:</strong> {{ $selectedUserProfile->work ?? '' }}</p>
+                            @else
+                                <p>No data available.</p>
+                            @endif
+                        </div>  
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                            </div>
+                    </div>
+                </div>
             </div>
-            <form>
-                <div class="modal-body">
-                    @if ($selectedUser)
-                        <p><strong>Name:</strong> {{ $selectedUser->name }}</p>
-                        <p><strong>Email:</strong> {{ $selectedUser->email }}</p>
-                        @if ($selectedUser->profile)
-                            <p><strong>First Name:</strong> {{ $selectedUser->profile->first_name }}</p>
-                            <p><strong>Middle Name:</strong> {{ $selectedUser->profile->middle_name ?? 'N/A' }}</p>
-                            <p><strong>Last Name:</strong> {{ $selectedUser->profile->last_name }}</p>
-                            <p><strong>Gender:</strong> {{ $selectedUser->profile->gender }}</p>
-                            <p><strong>Graduation Year:</strong> {{ $selectedUser->profile->graduation_year }}</p>
-                            <p><strong>Status:</strong> {{ $selectedUser->profile->status }}</p>
-                            <p><strong>Location:</strong> {{ $selectedUser->profile->location }}</p>
-                            <p><strong>Work:</strong> {{ $selectedUser->profile->work }}</p>
-                        @else
-                            <p>User profile not available.</p>
-                        @endif
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
+
