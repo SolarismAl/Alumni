@@ -33,7 +33,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th class="text-end">Action</th> <!-- Add a header for the actions column -->
+                                    <th class="text-end">Action</th> 
                                 </tr>
                             </thead>
                                 <tbody>

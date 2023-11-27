@@ -16,9 +16,7 @@ class EventWire extends Component
 
     public function addEvents()
     {
-        // Validate the form data if needed
-    
-        // Create a new event record
+       
         Events::create([
             'event_name' => $this->event_name,
             'description' => $this->description,
@@ -29,12 +27,11 @@ class EventWire extends Component
         $this->alert('success', 'Upcoming Events Added!');
         $this->resetForm();
     
-        // Optionally, you can emit an event to notify other Livewire components or update UI elements
     }
 
     public function removeEvents($id)
     {
-        // Fetch the event record by ID and delete it
+       
         $event = Events::find($id);
         if ($event) {
             $event->delete();

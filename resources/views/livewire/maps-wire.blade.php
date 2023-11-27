@@ -17,16 +17,14 @@
         zoom: 12 
     });
 
-    // Loop through user locations and add markers
     @foreach($userLocations as $location)
-    @if($location->user) {{-- Check if the user relationship exists --}}
-        new mapboxgl.Marker()
-            .setLngLat([{{ explode(',', $location->location)[1] }}, {{ explode(',', $location->location)[0] }}])
-            .setPopup(new mapboxgl.Popup().setHTML('<h5>' + '{{ $location->user->name ?? 'Unknown'}}' + '</h5>'))
-            .addTo(map);
-    @endif
-@endforeach
-
+        @if($location->user) {{-- Check if the user relationship exists --}}
+            new mapboxgl.Marker()
+                .setLngLat([{{ explode(',', $location->location)[1] }}, {{ explode(',', $location->location)[0] }}])
+                .setPopup(new mapboxgl.Popup().setHTML('<h5>' + '{{ $location->user->name ?? 'Unknown'}}' + '</h5>'))
+                .addTo(map);
+        @endif
+    @endforeach
 
     map.addControl(
         new MapboxGeocoder({

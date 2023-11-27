@@ -21,7 +21,7 @@ class AlumniListWire extends Component
 
     public function render()
     {
-        // Fetch alumni data from the database
+        
         $alumni = Alumni::all();
 
         return view('livewire.alumni-list-wire', ['alumni' => $alumni]);
@@ -29,7 +29,7 @@ class AlumniListWire extends Component
 
     public function addAlumni()
     {
-        // Validate the form fields if needed
+      
         $this->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -38,7 +38,7 @@ class AlumniListWire extends Component
             'place' => 'required',
         ]);
 
-        // Create a new Alumni record in the database
+       
         Alumni::create([
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
@@ -48,19 +48,19 @@ class AlumniListWire extends Component
             'place' => $this->place,
         ]);
         $this->alert('success', 'Successfully Added!');
-        // Clear the form fields
+      
         $this->resetFields();
 
-        // Close the modal
+        
         $this->emit('closeModal');
 
-        // Optionally, you can display a success message or perform other actions.
+       
     }
 
 
     public function removeAlumni($id)
     {
-        // Fetch the alumni record by ID and delete it
+        
         $alumni = Alumni::find($id);
         if ($alumni) {
             $alumni->delete();
