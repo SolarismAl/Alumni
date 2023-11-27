@@ -64,16 +64,42 @@ body { margin: 0; padding: 0; }
         })
     );
 
-    const locations = @json($userLocations);
+    const userLocations = @json($userLocations ?? []);
 
-    locations.forEach((location) => {
+    userLocations.forEach((location) => {
         const [lng, lat] = location.location.split(',').map(parseFloat);
-        const marker = new mapboxgl.Marker()
+
+        // Create a custom HTML element for the marker
+        const markerElement = document.createElement('div');
+        markerElement.className = 'custom-marker';
+        markerElement.innerHTML = `
+            <h5>${location.user.name}</h5>
+            <p>${location.location}</p>
+        `;
+
+        // Create a mapboxgl.Marker with the custom element
+        const marker = new mapboxgl.Marker(markerElement)
             .setLngLat([lng, lat])
             .addTo(map);
-        const popup = new mapboxgl.Popup()
-            .setHTML(`<h5>${location.user.name}</h5>`);
-        marker.setPopup(popup);
     });
-
 </script>
+
+
+<style>
+    .custom-marker {
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-marker h5 {
+        margin: 0;
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .custom-marker p {
+        margin: 5px 0 0 0;
+    }
+</style>
