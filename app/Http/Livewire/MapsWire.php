@@ -11,12 +11,13 @@ class MapsWire extends Component
     
     public function getUserLocations()
     {
-      
-        // Fetch user profiles that have a location
-        $userLocations = Profile::whereNotNull('location')->with('user')->get();    
+        // Fetch user profiles that have a location and an associated user
+        $userLocations = Profile::whereNotNull('location')->whereHas('user')->with('user')->get();
     
         return $userLocations;
     }
+    
+    
     
     public function render()
     {
