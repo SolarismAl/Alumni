@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Alumni;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -32,38 +33,34 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    ]);
+    {
+        // Check if the first name is already in the alumni list
+        $isAlumni = Alumni::where('first_name', $request->name)->exists();
 
-    // Create a user with 'approved' set to false
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'approved' => false, // User is not approved yet
-    ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-    // Trigger the Registered event
-    event(new Registered($user));
+        // Create a user with 'approved' set based on alumni list check
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'approved' => $isAlumni, // Automatically set to true if in alumni list
+        ]);
 
-    // Check if the user is approved
-    if (!$user->approved) {
-        // Automatically log out the user
-        Auth::logout();
+        // Trigger the Registered event
+        event(new Registered($user));
 
-        // Redirect the user to a message indicating that their registration is pending approval
+        // If the user is approved (in alumni list), log them in
+        if ($isAlumni) {
+            Auth::login($user);
+            return redirect(RouteServiceProvider::HOME);
+        }
+
+        // If not approved, redirect the user to a message indicating that their registration is pending approval
         return view('auth.pending-approval'); // Create this view
     }
-
-    // If the user is approved, log them in
-    Auth::login($user);
-
-    // Redirect the user to the dashboard or another page
-    return redirect(RouteServiceProvider::HOME);
-}
-
 }

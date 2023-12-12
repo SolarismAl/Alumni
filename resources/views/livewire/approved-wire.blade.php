@@ -105,25 +105,27 @@
                                     </table>
                                 </div>
                             </div>
+
                             <div class="mt-4">
-                                <h5>Graduation Year Distribution</h5>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Year</th>
-                                            <th>Count</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($graduationYearCounts as $year => $count)
-                                            <tr>
-                                                <td>{{ $year ?: 'Users don't Provide' }}</td>
-                                                <td>{{ $count }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                        <h5>Graduation Year Distribution</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($graduationYearCounts as $year => $count)
+                                    <tr>
+                                        <td>{{ $year ?: 'User does not provide' }}</td>
+                                        <td>{{ $count }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                         </div>
                     </div>
                 </section>
