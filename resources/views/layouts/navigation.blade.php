@@ -46,8 +46,12 @@
                                 <li class="submenu-item ">
                                     <a href="{{ route('user.alumnilist') }}">Alumni List</a>
                                 </li>
+
                                 <li class="submenu-item ">
                                     <a href="{{ route('user.donations') }}">Donations</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{ route('admin.summary') }}">Alumni Summary</a>
                                 </li>
                             </ul>
                         </li>

@@ -51,6 +51,83 @@
                         </table>
                     </div>
                 </section>
+                <section class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            Summary of All Users
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Gender Distribution</h5>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Gender</th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Male</td>
+                                                <td>{{ $maleCount }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Female</td>
+                                                <td>{{ $femaleCount }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Status Distribution</h5>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Employed</td>
+                                                <td>{{ $employedCount }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Unemployed</td>
+                                                <td>{{ $unemployedCount }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Student</td>
+                                                <td>{{ $studentCount }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h5>Graduation Year Distribution</h5>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($graduationYearCounts as $year => $count)
+                                            <tr>
+                                                <td>{{ $year ?: 'Users don't Provide' }}</td>
+                                                <td>{{ $count }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
             <div class="modal fade" id="userProfileModal" tabindex="-1" role="dialog" aria-labelledby="userProfileModalLabel" aria-hidden="true" wire:ignore.self>
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">

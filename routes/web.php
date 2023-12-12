@@ -45,6 +45,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('maps', function () {
         return view('admin.maps');
     })->name('admin.maps');
+
+    Route::get('summary', function () {
+        return view('admin.summary');
+    })->name('admin.summary');
 });
 
 
