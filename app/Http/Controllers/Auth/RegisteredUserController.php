@@ -34,8 +34,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        // Check if the first name is already in the alumni list
-        $isAlumni = Alumni::where('first_name', $request->name)->exists();
+
+    $isAlumni = Alumni::where(function ($query) use ($request) {
+        $query->where('first_name', 'like', '%' . $request->name . '%')
+              ->orWhere('middle_name', 'like', '%' . $request->name . '%')
+              ->orWhere('last_name', 'like', '%' . $request->name . '%')
+              ->orWhereRaw('CONCAT(first_name, " ", middle_name, " ", last_name) LIKE ?', ['%' . $request->name . '%']);
+    })->exists();
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -43,24 +48,21 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Create a user with 'approved' set based on alumni list check
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'approved' => $isAlumni, // Automatically set to true if in alumni list
+            'approved' => $isAlumni, 
         ]);
 
-        // Trigger the Registered event
+
         event(new Registered($user));
 
-        // If the user is approved (in alumni list), log them in
         if ($isAlumni) {
             Auth::login($user);
             return redirect(RouteServiceProvider::HOME);
         }
 
-        // If not approved, redirect the user to a message indicating that their registration is pending approval
-        return view('auth.pending-approval'); // Create this view
+        return view('auth.pending-approval');
     }
 }
